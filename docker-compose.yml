@@ -1,0 +1,32 @@
+version: '3'
+services:
+  traefik:
+    image: traefik:v1.7.14-alpine
+    container_name: traefik
+    restart: unless-stopped
+    command: --api
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/traefik.toml:/traefik.toml
+      - ./logs:/var/log/traefik
+    networks:
+      web:
+        aliases:
+          - api.pz-admin.localhost
+          - pz-admin.localhost
+          - auth.localhost
+          - gqlserver.localhost
+          - prisma.gqlserver.localhost
+          - api.gqlserver.localhost
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:traefik.localhost"
+
+networks:
+  web:
+    external: true
