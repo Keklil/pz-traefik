@@ -1,12 +1,6 @@
 logLevel = "INFO"
 defaultEntryPoints = ["http"]
 
-[traefikLog]
-filePath = "/var/log/traefik/traefik.log" 
-
-[accessLog]
-filePath = "/var/log/traefik/access.log"
-
 [docker]
 endpoint = "unix:///var/run/docker.sock"
 domain = "localhost"

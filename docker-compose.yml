@@ -3,7 +3,6 @@ services:
   traefik:
     image: traefik:v1.7.14-alpine
     container_name: traefik
-    restart: unless-stopped
     command: --api
     ports:
       - 80:80
@@ -15,17 +14,12 @@ services:
       - ./logs:/var/log/traefik
     networks:
       web:
-        aliases:
-          - api.pz-admin.localhost
-          - pz-admin.localhost
-          - auth.localhost
-          - gqlserver.localhost
-          - prisma.gqlserver.localhost
-          - api.gqlserver.localhost
+        ipv4_address: 172.25.1.2
     labels:
-      - "traefik.enable=true"
-      - "traefik.port=80"
-      - "traefik.frontend.rule=Host:traefik.localhost"
+      traefik.enable: true
+      traefik.frontend.port: 8080
+      traefik.frontend.rule: "Host:traefik.pzlocal.localhost"
+      traefik.frontend.auth.basic.users: "trfkdmn:$$apr1$$vnNQ1MQD$$MhUaAreW1F.FwZ.x7bg.q0"
 
 networks:
   web:
